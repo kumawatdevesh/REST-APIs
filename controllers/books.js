@@ -1,4 +1,4 @@
-const Books = require('../models/model');
+const Books = require('../models/books');
 
 // get all products
 exports.getBooks = (req, res, next) => {
@@ -9,7 +9,7 @@ exports.getBooks = (req, res, next) => {
 
 exports.getSingleProduct = (req, res, next) => {
   var id = req.params.id;
-  Books.findOne({_id: id}).then(book => {
+  Books.findOne({id: id}).then(book => {
     res.send(book);
   });
 };
@@ -39,7 +39,7 @@ exports.updateItem = (req, res, next) => {
   const updatedDesc = req.body.desc;
   const image = req.body.image;
 
-  Books.findOne({_id: id})
+  Books.findOneAndUpdate({id: id})
   .then(book => {
     book.name = updatedName;
     book.price = updatedPrice;
@@ -52,7 +52,7 @@ exports.updateItem = (req, res, next) => {
 // for deleting product
 exports.deleteItem = (req, res, next) => {
   const id = req.params.id;
-  Books.remove({ _id: id}, function(err) {
+  Books.findOneAndDelete({ id: id}, function(err) {
     res.send('deleted');
 });
 };
